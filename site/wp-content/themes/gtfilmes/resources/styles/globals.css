@@ -1,0 +1,370 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Goldplay Alt';
+  src:
+    url('../fonts/goldplay-alt/GoldplayAlt-Light.woff2') format('woff2'),
+    url('../fonts/goldplay-alt/GoldplayAlt-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Goldplay Alt';
+  src:
+    url('../fonts/goldplay-alt/GoldplayAlt-Regular.woff2') format('woff2'),
+    url('../fonts/goldplay-alt/GoldplayAlt-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Goldplay Alt';
+  src:
+    url('../fonts/goldplay-alt/GoldplayAlt-Medium.woff2') format('woff2'),
+    url('../fonts/goldplay-alt/GoldplayAlt-Medium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Goldplay Alt';
+  src:
+    url('../fonts/goldplay-alt/GoldplayAlt-Bold.woff2') format('woff2'),
+    url('../fonts/goldplay-alt/GoldplayAlt-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+html,
+body {
+  scroll-behavior: smooth;
+}
+
+.container {
+  width: 100%;
+  max-width: 100%;
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Formulário nativo do Contact Form 7 (markup vem do wp-admin, sem classes Tailwind) */
+.cf7-form .wpcf7-form-control-wrap {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.cf7-form .wpcf7-form-control-wrap:last-child {
+  margin-bottom: 0;
+}
+
+.cf7-form .wpcf7-form-control {
+  width: 100%;
+  border-radius: 10px;
+  background-color: rgb(255 255 255 / 0.1);
+  padding: 1.5rem;
+  font-size: 1.125rem;
+  color: #fff;
+}
+
+.cf7-form .wpcf7-form-control::placeholder {
+  color: #fff;
+}
+
+.cf7-form .wpcf7-form-control:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #ec0076;
+}
+
+.cf7-form textarea.wpcf7-form-control {
+  min-height: 148px;
+  resize: none;
+}
+
+.cf7-form .wpcf7-not-valid-tip {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #f87171;
+}
+
+.cf7-form .wpcf7-submit {
+  border-radius: 9999px;
+  background-color: #ec0076;
+  padding: 0.625rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  transition: opacity 0.15s;
+  display: inline-block;
+  width: auto;
+}
+
+.cf7-form .wpcf7-submit:hover {
+  opacity: 0.9;
+}
+
+.cf7-form .wpcf7-submit:disabled,
+.cf7-form .wpcf7-spinner {
+  opacity: 0.6;
+}
+
+.cf7-form .wpcf7-response-output {
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(255 255 255 / 0.2);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: #fff;
+}
+
+.cf7-form form.sent .wpcf7-response-output {
+  border-color: #4ade80;
+  color: #4ade80;
+}
+
+.cf7-form form.failed .wpcf7-response-output,
+.cf7-form form.invalid .wpcf7-response-output,
+.cf7-form form.spam .wpcf7-response-output,
+.cf7-form form.aborted .wpcf7-response-output,
+.cf7-form form.unaccepted .wpcf7-response-output {
+  border-color: #f87171;
+  color: #f87171;
+}
+.cf7-form p {
+  padding-bottom: 16px;
+}
+
+/* Formulário nativo do Contact Form 7 — variante clara (modais do header) */
+.cf7-form-light .wpcf7-form-control-wrap {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+.cf7-form-light .wpcf7-form-control-wrap:last-child {
+  margin-bottom: 0;
+}
+
+.cf7-form-light .wpcf7-form-control {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #e5e5e5;
+  background-color: #fff;
+  padding: 1.5rem;
+  font-size: 1.125rem;
+  color: #4d4d4d;
+}
+
+.cf7-form-light .wpcf7-form-control::placeholder {
+  color: #4d4d4d;
+}
+
+.cf7-form-light .wpcf7-form-control:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #ec0076;
+}
+
+.cf7-form-light textarea.wpcf7-form-control {
+  min-height: 148px;
+  resize: none;
+}
+
+.cf7-form-light .wpcf7-form-control.wpcf7-file {
+  border-style: dashed;
+  padding: 1rem 1.5rem;
+}
+
+.cf7-form-light .wpcf7-not-valid-tip {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: #dc2626;
+}
+
+.cf7-form-light .wpcf7-submit {
+  border-radius: 9999px;
+  background-color: #ec0076;
+  padding: 0.625rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #fff;
+  transition: opacity 0.15s;
+}
+
+.cf7-form-light .wpcf7-submit:hover {
+  opacity: 0.9;
+}
+
+.cf7-form-light .wpcf7-submit:disabled,
+.cf7-form-light .wpcf7-spinner {
+  opacity: 0.6;
+}
+
+.cf7-form-light .wpcf7-response-output {
+  margin-top: 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid #e5e5e5;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: #4d4d4d;
+}
+
+.cf7-form-light form.sent .wpcf7-response-output {
+  border-color: #16a34a;
+  color: #16a34a;
+}
+
+.cf7-form-light form.failed .wpcf7-response-output,
+.cf7-form-light form.invalid .wpcf7-response-output,
+.cf7-form-light form.spam .wpcf7-response-output,
+.cf7-form-light form.aborted .wpcf7-response-output,
+.cf7-form-light form.unaccepted .wpcf7-response-output {
+  border-color: #dc2626;
+  color: #dc2626;
+}
+
+.cf7-form-light p {
+  padding-bottom: 16px;
+}
+.cf7-form-light p.cf7-file-name {
+  padding-bottom: 0;
+}
+
+/* Widget customizado do campo de anexo (file input real do CF7, só restilizado) */
+.cf7-file-widget {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.cf7-file-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+}
+
+.cf7-file-row > .cf7-file-icon {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  color: #4d4d4d;
+}
+
+.cf7-file-row > .cf7-file-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 1.125rem;
+  color: #4d4d4d;
+}
+
+.cf7-file-btn {
+  flex-shrink: 0;
+  cursor: pointer;
+  border-radius: 6px;
+  background-color: rgb(236 0 118 / 0.1);
+  padding: 1rem 1.5rem;
+  font-size: 1rem;
+  color: #ec0076;
+  transition: background-color 0.15s;
+}
+
+.cf7-file-btn:hover {
+  background-color: rgb(236 0 118 / 0.2);
+}
+
+.cf7-file-name {
+  font-size: 0.875rem;
+  color: #999;
+}
+
+/* Faixa contínua (marquee) dos logos de clientes no mobile */
+@keyframes logos-marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.logos-marquee-track {
+  animation-name: logos-marquee;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
