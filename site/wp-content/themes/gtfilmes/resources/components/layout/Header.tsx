@@ -5,6 +5,7 @@ import { boot } from '@/lib/env'
 import logoAsset from '@/assets/header/logo.svg'
 import menuIconAsset from '@/assets/header/menu-icon.svg'
 import AttachmentFormModal from '@/components/shared/AttachmentFormModal'
+import LanguageSwitcher from '@/components/layout/LanguageSwitcher'
 
 interface HeaderOptions {
   site_name?: string
@@ -148,6 +149,8 @@ export default function Header() {
             <CtaButton text={cta1Text} onClick={openPortfolioModal} />
             <CtaButton text={cta2Text} onClick={openJobsModal} />
           </div>
+
+          <LanguageSwitcher />
 
           <button
             className="flex h-8 w-8 shrink-0 items-center justify-center"

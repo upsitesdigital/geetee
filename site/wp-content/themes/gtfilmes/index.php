@@ -2,6 +2,7 @@
 declare(strict_types=1);
 
 use Core\Framework\RouteResolver;
+use Core\Support\Languages;
 
 // ── SEO ──────────────────────────────────────────────────────────────────────
 $seoTitle       = wp_get_document_title();
@@ -28,6 +29,7 @@ $bootData = [
     'themeOptions' => get_option('upwork_theme_options', []),
     'currentPath'  => $_SERVER['REQUEST_URI'] ?? '/',
     'currentRoute' => RouteResolver::current(),
+    'languages'    => Languages::boot(),
 ];
 ?>
 <!DOCTYPE html>

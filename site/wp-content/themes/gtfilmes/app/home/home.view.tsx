@@ -933,7 +933,7 @@ function ProjectModal({ projectId, onClose }: { projectId: number | null; onClos
         {project && (
           <>
             <div className="flex w-full flex-col items-start gap-8 px-6 py-10 sm:px-16 sm:py-14 lg:flex-row lg:items-center lg:px-[150px] lg:py-16">
-              <h2 className="flex-1 text-3xl font-bold leading-tight text-[#1a1a1a] sm:text-4xl lg:text-[48px]">
+              <h2 className="flex-1 text-3xl font-bold leading-[1.2] text-[#1a1a1a] sm:text-4xl sm:leading-[1.2] lg:text-[48px]">
                 {project.titulo}
               </h2>
               {project.descricaoCompleta && (

@@ -6,6 +6,7 @@ namespace Core\Framework;
 use Core\Admin\ModuleManager;
 use Core\Admin\MenuApi;
 use Core\Admin\NonceApi;
+use Core\Admin\PageEditor;
 use Core\Admin\ThemeOptions;
 use Core\Admin\FormBuilder\FormCpt;
 use Core\Admin\FormBuilder\FormApi;
@@ -33,6 +34,7 @@ class Bootstrap
         ThemeOptions::register();
         MenuApi::register();
         NonceApi::register();
+        PageEditor::register();
         FormCpt::register();
         FormApi::register();
     }

@@ -21,7 +21,7 @@ use Core\Framework\Attributes\Taxonomy;
     singular: 'Projeto',
     plural: 'Projetos',
     icon: 'dashicons-portfolio',
-    supports: ['title', 'editor', 'thumbnail'],
+    supports: ['title', 'thumbnail'],
 )]
 #[Taxonomy(
     slug: 'categories',

@@ -12,6 +12,15 @@ export interface FwBoot {
     url: string
     title: string
   } | null
+  /** Idiomas publicados no TranslatePress (vazio se o plugin estiver inativo). */
+  languages?: Array<{
+    code: string
+    slug: string
+    label: string
+    baseUrl: string
+    flagUrl: string
+    current: boolean
+  }>
 }
 
 declare global {
