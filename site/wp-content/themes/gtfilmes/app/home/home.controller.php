@@ -42,6 +42,17 @@ final class HomeController extends Controller
             'sizes'  => [],
         ];
 
+        $midiaTipo   = (string) ($this->field($pageId, 'hero_midia_tipo') ?? 'nenhuma');
+        $midiaImagem = $midiaTipo === 'imagem' ? $this->image($this->field($pageId, 'hero_midia_imagem')) : null;
+        $videoUrl    = $midiaTipo === 'video' ? ((string) ($this->field($pageId, 'hero_midia_video') ?? '') ?: null) : null;
+        $youtubeId   = null;
+        if ($midiaTipo === 'youtube') {
+            $url = (string) ($this->field($pageId, 'hero_midia_youtube') ?? '');
+            if (preg_match('~(?:youtube\.com/(?:watch\?(?:.*&)?v=|embed/|shorts/|live/)|youtu\.be/)([\w-]{11})~', $url, $m)) {
+                $youtubeId = $m[1];
+            }
+        }
+
         $amigosLogos = [];
         if (function_exists('have_rows')) {
             while (have_rows('amigos_logos', $pageId)) {
@@ -156,10 +167,15 @@ final class HomeController extends Controller
 
         return [
             'hero' => [
-                'tituloLinha1' => (string) ($this->field($pageId, 'hero_titulo_linha1') ?? 'Demo'),
-                'tituloLinha2' => (string) ($this->field($pageId, 'hero_titulo_linha2') ?? 'Reel'),
+                'tituloLinha1' => (string) ($this->field($pageId, 'hero_titulo_linha1') ?? ''),
+                'tituloLinha2' => (string) ($this->field($pageId, 'hero_titulo_linha2') ?? ''),
                 'tituloTextura' => $textura,
                 'descricao'    => (string) ($this->field($pageId, 'hero_descricao') ?? ''),
+                'midia'        => [
+                    'imagem'    => $midiaImagem,
+                    'videoUrl'  => $videoUrl,
+                    'youtubeId' => $youtubeId,
+                ],
             ],
             'amigos' => [
                 'badge'        => $amigosBadge,

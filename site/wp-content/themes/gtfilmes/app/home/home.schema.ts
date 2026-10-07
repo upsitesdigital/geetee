@@ -9,6 +9,16 @@ export interface HomeData {
       height: number | null
     }
     descricao: string
+    midia: {
+      imagem: {
+        src: string
+        alt: string
+        width: number | null
+        height: number | null
+      } | null
+      videoUrl: string | null
+      youtubeId: string | null
+    }
   }
   amigos: {
     badge: {

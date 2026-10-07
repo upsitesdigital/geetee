@@ -182,7 +182,7 @@ export default function Header() {
                   className="group flex items-center justify-between gap-2 rounded-md p-2.5 text-lg text-[#4D4D4D] transition-colors hover:bg-[#F7F7F7]"
                 >
                   <span className="flex items-center gap-2">
-                    <Icon className="h-5 w-5 shrink-0" />
+                    <Icon className="h-5 w-5 shrink-0 transition-colors group-hover:text-[#EC0076]" />
                     {label}
                   </span>
                   <ChevronRight className="h-3 w-3 shrink-0 text-[#EC0076] opacity-0 transition-opacity group-hover:opacity-100" />

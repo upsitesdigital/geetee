@@ -119,15 +119,19 @@ export default function HomeView() {
       <section className="container px-4 pb-4 sm:px-8 md:pb-6">
         <div className="relative flex flex-col min-h-[auto] sm:min-h-[800px] overflow-hidden rounded-[20px] bg-[#210000] px-6 py-16 sm:px-10 lg:justify-end lg:px-16 xl:px-20">
 
+          <HeroMidia midia={hero.midia} />
+
           {/* Título + descrição */}
-          <div className="flex h-full min-h-[630px] sm:min-h-[auto] flex-col-reverse justify-between gap-8 lg:h-auto lg:flex-row lg:items-start lg:justify-between lg:gap-12">
-            <h1
-              className="bg-clip-text text-[18vw] font-black uppercase leading-[0.8] text-transparent bg-cover bg-center sm:text-[16vw] md:text-[13vw] lg:text-[10vw] xl:text-[9vw] 2xl:text-[180px]"
-              style={{ backgroundImage: `url("${hero.tituloTextura.src}")` }}
-            >
-              <span className="block">{hero.tituloLinha1}</span>
-              <span className="block">{hero.tituloLinha2}</span>
-            </h1>
+          <div className="relative flex h-full min-h-[630px] sm:min-h-[auto] flex-col-reverse justify-between gap-8 lg:h-auto lg:flex-row lg:items-start lg:justify-between lg:gap-12">
+            {(hero.tituloLinha1 || hero.tituloLinha2) && (
+              <h1
+                className="bg-clip-text text-[18vw] font-black uppercase leading-[0.8] text-transparent bg-cover bg-center sm:text-[16vw] md:text-[13vw] lg:text-[10vw] xl:text-[9vw] 2xl:text-[180px]"
+                style={{ backgroundImage: `url("${hero.tituloTextura.src}")` }}
+              >
+                {hero.tituloLinha1 && <span className="block">{hero.tituloLinha1}</span>}
+                {hero.tituloLinha2 && <span className="block">{hero.tituloLinha2}</span>}
+              </h1>
+            )}
 
             {hero.descricao && (
               <p className="max-w-[428px] shrink-0 text-lg text-white lg:pt-2 lg:text-2xl">
@@ -170,6 +174,143 @@ export default function HomeView() {
     </div>
   )
 }
+
+function HeroMidia({ midia }: { midia: HomeData['hero']['midia'] }) {
+  const { imagem, videoUrl, youtubeId } = midia ?? { imagem: null, videoUrl: null, youtubeId: null }
+  if (!imagem && !videoUrl && !youtubeId) return null
+
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden [container-type:size]" aria-hidden="true">
+      {videoUrl ? (
+        <video
+          src={videoUrl}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          disablePictureInPicture
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      ) : youtubeId ? (
+        <YouTubeBackground videoId={youtubeId} />
+      ) : (
+        imagem && (
+          <img
+            src={imagem.src}
+            alt=""
+            width={imagem.width ?? undefined}
+            height={imagem.height ?? undefined}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        )
+      )}
+      <div className="absolute inset-0 bg-[#210000]/50" />
+    </div>
+  )
+}
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
+type YTWindow = Window & { YT?: any; onYouTubeIframeAPIReady?: () => void }
+
+let youtubeApiPromise: Promise<any> | null = null
+
+const YOUTUBE_REVEAL_DELAY_MS = 3500
+
+function loadYouTubeApi(): Promise<any> {
+  const w = window as YTWindow
+  if (w.YT?.Player) return Promise.resolve(w.YT)
+  if (!youtubeApiPromise) {
+    youtubeApiPromise = new Promise((resolve) => {
+      const previous = w.onYouTubeIframeAPIReady
+      w.onYouTubeIframeAPIReady = () => {
+        previous?.()
+        resolve(w.YT)
+      }
+      const script = document.createElement('script')
+      script.src = 'https://www.youtube.com/iframe_api'
+      script.async = true
+      document.head.appendChild(script)
+    })
+  }
+  return youtubeApiPromise
+}
+
+// Vídeo do YouTube como fundo: sem controles, sem som, em loop. Só aparece quando
+// está tocando (esconde a tela de carregamento) e reinicia antes da tela final.
+function YouTubeBackground({ videoId }: { videoId: string }) {
+  const mountRef = useRef<HTMLDivElement>(null)
+  const [playing, setPlaying] = useState(false)
+
+  useEffect(() => {
+    let player: any = null
+    let loopTimer: number | undefined
+    let revealTimer: number | undefined
+    let cancelled = false
+
+    loadYouTubeApi().then((YT) => {
+      if (cancelled || !mountRef.current) return
+      player = new YT.Player(mountRef.current, {
+        videoId,
+        host: 'https://www.youtube-nocookie.com',
+        playerVars: {
+          autoplay: 1,
+          mute: 1,
+          controls: 0,
+          disablekb: 1,
+          fs: 0,
+          iv_load_policy: 3,
+          modestbranding: 1,
+          playsinline: 1,
+          rel: 0,
+        },
+        events: {
+          onReady: (e: any) => {
+            e.target.mute()
+            e.target.playVideo()
+            loopTimer = window.setInterval(() => {
+              const duration = player?.getDuration?.() ?? 0
+              if (duration > 0 && player.getCurrentTime() > duration - 0.4) {
+                player.seekTo(0, true)
+              }
+            }, 200)
+          },
+          onStateChange: (e: any) => {
+            // O player do YouTube exibe o botão central por alguns segundos ao iniciar;
+            // só revela o vídeo depois que ele some.
+            if (e.data === YT.PlayerState.PLAYING && !revealTimer) {
+              revealTimer = window.setTimeout(() => setPlaying(true), YOUTUBE_REVEAL_DELAY_MS)
+            }
+            if (e.data === YT.PlayerState.ENDED) {
+              e.target.seekTo(0, true)
+              e.target.playVideo()
+            }
+          },
+        },
+      })
+    })
+
+    return () => {
+      cancelled = true
+      window.clearInterval(loopTimer)
+      window.clearTimeout(revealTimer)
+      player?.destroy?.()
+    }
+  }, [videoId])
+
+  return (
+    <div
+      className={cn(
+        // Ampliado além do container para cortar as barras do YouTube nas bordas.
+        'absolute left-1/2 top-1/2 h-[max(100cqh,56.25cqw)] w-[max(100cqw,177.78cqh)] -translate-x-1/2 -translate-y-1/2 scale-[1.35] transition-opacity duration-700 [&_iframe]:h-full [&_iframe]:w-full',
+        playing ? 'opacity-100' : 'opacity-0',
+      )}
+    >
+      <div ref={mountRef} />
+    </div>
+  )
+}
+/* eslint-enable @typescript-eslint/no-explicit-any */
 
 const STATS_ROTATE_INTERVAL_MS = 5000
 const STATS_FADE_DURATION_MS = 300
